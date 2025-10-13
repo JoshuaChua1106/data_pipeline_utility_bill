@@ -7,6 +7,7 @@ from googleapiclient.errors import HttpError
 
 from extract.gmail_connector import connect_gmail
 from extract.email_filter import search_emails
+from extract.pdf_downloader import download_pdf_attachments
 
 
 # Configuration
@@ -18,11 +19,9 @@ with open(BASE_DIR / "config/config.yaml") as f:
 
 
 # Stage 1: Connect to Gmail
-# Get the path string from .env
 credentials_relative = os.getenv("GMAIL_CREDENTIALS_PATH")
 token_relative = os.getenv("GMAIL_TOKEN_PATH")
 
-# Combine with BASE_DIR to get absolute paths
 credentials_path = BASE_DIR / credentials_relative
 token_path = BASE_DIR / token_relative
 
@@ -43,7 +42,6 @@ except HttpError as error:
     print(f"An error occurred: {error}")
 
 # Step 2: Filter for relevant emails
-
 elec_search_query = config["gmail_queries"]["elec"]
 water_search_query = config["gmail_queries"]["water"]
 gas_search_query = config["gmail_queries"]["gas"]
@@ -51,3 +49,13 @@ gas_search_query = config["gmail_queries"]["gas"]
 elec_emails = search_emails(service, elec_search_query)
 water_emails = search_emails(service, water_search_query)
 gas_emails = search_emails(service, gas_search_query)
+
+
+# Step 3: Download Invoice PDF from emails
+elec_pdf_filepath = BASE_DIR / config["paths"]["elec_pdf"]
+water_pdf_filepath = BASE_DIR / config["paths"]["water_pdf"]
+gas_pdf_filepath = BASE_DIR / config["paths"]["gas_pdf"]
+
+download_pdf_attachments(service, elec_emails, save_folder= elec_pdf_filepath)
+download_pdf_attachments(service, gas_emails, save_folder=gas_pdf_filepath)
+download_pdf_attachments(service, water_emails, save_folder=water_pdf_filepath)
