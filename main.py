@@ -9,6 +9,8 @@ from extract.gmail_connector import connect_gmail
 from extract.email_filter import search_emails
 from extract.pdf_downloader import download_pdf_attachments
 
+from parse.pdf_parser_base import parse_all_pdfs
+
 
 # Configuration
 load_dotenv()
@@ -52,10 +54,27 @@ gas_emails = search_emails(service, gas_search_query)
 
 
 # Step 3: Download Invoice PDF from emails
-elec_pdf_filepath = BASE_DIR / config["paths"]["elec_pdf"]
-water_pdf_filepath = BASE_DIR / config["paths"]["water_pdf"]
-gas_pdf_filepath = BASE_DIR / config["paths"]["gas_pdf"]
+elec_pdf_filepath = BASE_DIR / config["paths"]["elec_pdf_raw"]
+water_pdf_filepath = BASE_DIR / config["paths"]["water_pdf_raw"]
+gas_pdf_filepath = BASE_DIR / config["paths"]["gas_pdf_raw"]
 
 download_pdf_attachments(service, elec_emails, save_folder= elec_pdf_filepath)
 download_pdf_attachments(service, gas_emails, save_folder=gas_pdf_filepath)
 download_pdf_attachments(service, water_emails, save_folder=water_pdf_filepath)
+
+
+# Step 4: Parse PDFs using PDF Plumber and save as a dataframe
+elec_df = parse_all_pdfs(elec_pdf_filepath, "elec")
+water_df = parse_all_pdfs(water_pdf_filepath, "water")
+gas_df = parse_all_pdfs(gas_pdf_filepath, "gas")
+
+    # Step 4.1: Save as dataframe
+elec_raw_dataframe = BASE_DIR / config["paths"]["elec_df_raw"]
+water_raw_dataframe = BASE_DIR / config["paths"]["water_df_raw"]
+gas_raw_dataframe = BASE_DIR / config["paths"]["gas_df_raw"]
+
+elec_df.to_csv(elec_raw_dataframe, index=False)
+water_df.to_csv(water_raw_dataframe, index=False)
+gas_df.to_csv(gas_raw_dataframe, index=False)
+
+

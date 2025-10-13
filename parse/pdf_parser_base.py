@@ -1,11 +1,11 @@
-from parse.parse_electricity import parse_electricity_pdf
-from parse.parse_water import parse_water_pdf
-from parse.parse_gas import parse_gas_pdf
-
 import os
 import glob
 import pandas as pd
 import pdfplumber
+
+from parse.parse_electricity import parse_electricity_pdf
+from parse.parse_water import parse_water_pdf
+from parse.parse_gas import parse_gas_pdf
 
 def parse_all_pdfs(folder_path, utility_type, pattern="*.pdf"):
     """
