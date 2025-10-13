@@ -10,7 +10,7 @@ from extract.email_filter import search_emails
 from extract.pdf_downloader import download_pdf_attachments
 
 from parse.pdf_parser_base import parse_all_pdfs
-
+from transform.standardize_df_cols import standardize_columns
 
 # Configuration
 load_dotenv()
@@ -81,19 +81,24 @@ gas_df.to_csv(gas_raw_dataframe, index=False)
 # Step 5: Preprocess (Align columns)
     # Step 5.1: Rename existing columns to match
 elec_df_silver = elec_df.copy()
-gas_df_silver = gas_df.copy()
 water_df_silver = water_df.copy()
+gas_df_silver = gas_df.copy()
+
 
 final_labels = config["columns"]["final_labels"]
-elec_rename = config["columns"]["elec_rename"]
-gas_rename = config["columns"]["gas_rename"]
-water_rename = config["columns"]["water_rename"]
 
+elec_rename = config["columns"]["elec_rename"]
+water_rename = config["columns"]["water_rename"]
+gas_rename = config["columns"]["gas_rename"]
 
 elec_df_silver.columns = elec_rename
-gas_df_silver.columns = gas_rename
 water_df_silver.columns = water_rename
+gas_df_silver.columns = gas_rename
+
 
     # Step 5.2: Add in missing columns to reach a standard df structure
+elec_df_silver = standardize_columns(elec_df_silver, final_labels)
+water_df_silver = standardize_columns(water_df_silver, final_labels)
+gas_df_silver = standardize_columns(gas_df_silver, final_labels)
 
 
