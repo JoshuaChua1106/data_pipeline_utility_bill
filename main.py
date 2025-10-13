@@ -78,3 +78,22 @@ water_df.to_csv(water_raw_dataframe, index=False)
 gas_df.to_csv(gas_raw_dataframe, index=False)
 
 
+# Step 5: Preprocess (Align columns)
+    # Step 5.1: Rename existing columns to match
+elec_df_silver = elec_df.copy()
+gas_df_silver = gas_df.copy()
+water_df_silver = water_df.copy()
+
+final_labels = config["columns"]["final_labels"]
+elec_rename = config["columns"]["elec_rename"]
+gas_rename = config["columns"]["gas_rename"]
+water_rename = config["columns"]["water_rename"]
+
+
+elec_df_silver.columns = elec_rename
+gas_df_silver.columns = gas_rename
+water_df_silver.columns = water_rename
+
+    # Step 5.2: Add in missing columns to reach a standard df structure
+
+
