@@ -101,4 +101,13 @@ elec_df_silver = standardize_columns(elec_df_silver, final_labels)
 water_df_silver = standardize_columns(water_df_silver, final_labels)
 gas_df_silver = standardize_columns(gas_df_silver, final_labels)
 
+    # Step 5.3: Output as silver dataframe
+elec_silver_output_path = BASE_DIR / config["paths"]["elec_silver_output_path"]
+water_silver_output_path = BASE_DIR / config["paths"]["water_silver_output_path"]
+gas_silver_output_path = BASE_DIR / config["paths"]["gas_silver_output_path"]
+
+
+elec_df_silver.to_csv(elec_silver_output_path, index=False)
+water_df_silver.to_csv(water_silver_output_path, index=False)
+gas_df_silver.to_csv(gas_silver_output_path, index=False)
 
