@@ -25,7 +25,6 @@ with open(config_path) as f:
     config = yaml.safe_load(f)
 
 
-
 # Stage 1: Connect to Gmail
 credentials_relative = os.getenv("GMAIL_CREDENTIALS_PATH")
 token_relative = os.getenv("GMAIL_TOKEN_PATH")
@@ -48,6 +47,7 @@ try:
     
 except HttpError as error:
     print(f"An error occurred: {error}")
+
 
 # Step 2: Filter for relevant emails
 elec_search_query = config["gmail_queries"]["elec"]
@@ -90,7 +90,6 @@ elec_df_silver = elec_df.copy()
 water_df_silver = water_df.copy()
 gas_df_silver = gas_df.copy()
 
-
 final_labels = config["columns"]["final_labels"]
 
 elec_rename = config["columns"]["elec_rename"]
@@ -108,7 +107,6 @@ water_df_silver = standardize_column_names(water_df_silver, final_labels)
 gas_df_silver = standardize_column_names(gas_df_silver, final_labels)
 
 
-
     # Step 5.3: Pre-process missing values from df (incl. invoice_date/step_date/step_number)
 elec_df_silver = fill_electricity_step_fields(elec_df_silver)
 water_df_silver = fill_missing_service_columns_for_water(water_df_silver)
@@ -123,6 +121,7 @@ elec_df_silver = standardize_column_datatypes(elec_df_silver, dtypes, "elec")
 water_df_silver = standardize_column_datatypes(water_df_silver, dtypes, "water")
 gas_df_silver = standardize_column_datatypes(gas_df_silver, dtypes, "gas")
 
+
     # Step 5.5 Add in season to elec, water
 summer_months = config["seasons"]["summer"]  # e.g., {"start_month": 10, "end_month": 5}
 
@@ -134,8 +133,10 @@ water_df_silver["season"] = water_df_silver["invoice_start"].apply(
     lambda x: classify_season(x, summer_months)
 )
 
+
     # Step 5.6 Add in missing step dates for water
 water_df_silver = fill_water_step_dates(water_df_silver)
+
 
     # Step 5.7: Output as silver dataframe
 elec_silver_output_path = BASE_DIR / config["paths"]["elec_silver_output_path"]
@@ -149,6 +150,7 @@ save_dataframe_to_csv(gas_df_silver, gas_silver_output_path)
 
 # Step 6.0 Combine dataframe into one
 utilities_gold_df = pd.concat([elec_df_silver, water_df_silver, gas_df_silver], ignore_index=True)
+
 
     # Step 6.1 Save as csv
 utilities_gold_output_path = BASE_DIR / config["paths"]["utiltities_gold_output_path"]
