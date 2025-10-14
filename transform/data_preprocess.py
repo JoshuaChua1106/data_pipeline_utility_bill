@@ -75,7 +75,7 @@ def fill_electricity_step_fields(df: pd.DataFrame) -> pd.DataFrame:
 
     return df
 
-def classify_season(date: pd.Timestamp) -> str:
+def classify_season(date: pd.Timestamp, config_path: str) -> str:
     """
     Classify a date into Lumo Energy's gas billing seasons.
     - Season 1 (Summer): 1 Oct – 31 May
@@ -83,8 +83,7 @@ def classify_season(date: pd.Timestamp) -> str:
     """
 
     # Load config
-    BASE_DIR = Path(__file__).resolve().parent.parent
-    with open(BASE_DIR / "config/config.yaml") as f:
+    with open(config_path) as f:
         config = yaml.safe_load(f)
 
     summer_months = config["gas_seasons"]["summer"]

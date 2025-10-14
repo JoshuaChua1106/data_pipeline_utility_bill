@@ -11,14 +11,16 @@ from extract.email_filter import search_emails
 from extract.pdf_downloader import download_pdf_attachments
 
 from parse.pdf_parser_base import parse_all_pdfs
-from transform.standardize_df_cols import standardize_columns
+from transform.standardize_df_cols import standardize_column_names, standardize_column_datatypes
 from transform.data_preprocess import fill_gas_invoice_start_end,fill_electricity_step_fields, clean_gas_season, classify_season, fill_missing_service_columns_for_water
 
 
 # Configuration
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent
-with open(BASE_DIR / "config/config.yaml") as f:
+config_path = BASE_DIR / "config/config.yaml"
+
+with open(config_path) as f:
     config = yaml.safe_load(f)
 
 
@@ -100,23 +102,34 @@ gas_df_silver.columns = gas_rename
 
 
     # Step 5.2: Add in missing columns to reach a standard df structure
-elec_df_silver = standardize_columns(elec_df_silver, final_labels)
-water_df_silver = standardize_columns(water_df_silver, final_labels)
-gas_df_silver = standardize_columns(gas_df_silver, final_labels)
+elec_df_silver = standardize_column_names(elec_df_silver, final_labels)
+water_df_silver = standardize_column_names(water_df_silver, final_labels)
+gas_df_silver = standardize_column_names(gas_df_silver, final_labels)
 
     # Step 5.3: Pre-process missing values from df (incl. invoice_date/step_date/step_number)
 elec_df_silver = fill_electricity_step_fields(elec_df_silver)
 gas_df_silver = fill_gas_invoice_start_end(gas_df_silver)
 gas_df_silver = clean_gas_season(gas_df_silver)
 
-    # Step 5.4 Add in season to elec, water
-elec_df_silver["season"] = pd.to_datetime(elec_df_silver["invoice_start"]).apply(classify_season)
-water_df_silver["season"] = pd.to_datetime(water_df_silver["invoice_start"]).apply(classify_season)
+    # Step 5.4 Standardize column datatypes
+water_df_silver = standardize_column_datatypes(water_df_silver, config_path)
+gas_df_silver = standardize_column_datatypes(gas_df_silver, config_path)
+elec_df_silver = standardize_column_datatypes(elec_df_silver, config_path)
 
-    # Step 5.5 Add in missing data for service to water
+    # Step 5.5 Add in season to elec, water
+elec_df_silver["season"] = elec_df_silver["invoice_start"].apply(
+    lambda x: classify_season(x, config_path)
+)
+
+water_df_silver["season"] = water_df_silver["invoice_start"].apply(
+    lambda x: classify_season(x, config_path)
+)
+
+    # Step 5.6 Add in missing data for service to water
 water_df_silver = fill_missing_service_columns_for_water(water_df_silver)
 
-    # Step 5.4: Output as silver dataframe
+
+    # Step 5.7: Output as silver dataframe
 elec_silver_output_path = BASE_DIR / config["paths"]["elec_silver_output_path"]
 water_silver_output_path = BASE_DIR / config["paths"]["water_silver_output_path"]
 gas_silver_output_path = BASE_DIR / config["paths"]["gas_silver_output_path"]
