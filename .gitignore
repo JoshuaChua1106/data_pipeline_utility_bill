@@ -1,13 +1,13 @@
-# Ignore sensitive information in data folder, but keep folder structure
-data/*
-!data/.gitignore
-data/raw/*
-!data/raw/.gitignore
+# Data folder: keep structure, ignore files
+data/**/*
+!data/**/
+!data/**/.gitkeep
 
-# Ignore everything in the config folder
-config/**
-!config/
-!config/.gitignore
+# Config folder: ignore sensitive files, allow examples  
+config/config.yaml
+config/credentials.json
+config/token.json
+!config/config.example.yaml
 
 # Environment variables
 .env

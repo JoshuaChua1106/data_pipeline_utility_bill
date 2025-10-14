@@ -1,0 +1,109 @@
+paths:
+  elec_pdf_raw: "data/raw/elec"
+  water_pdf_raw: "data/raw/water"
+  gas_pdf_raw: "data/raw/gas"
+
+  elec_df_raw: "data/raw_csv (bronze)/elec_raw.csv"
+  water_df_raw: "data/raw_csv (bronze)/water_raw.csv"
+  gas_df_raw: "data/raw_csv (bronze)/gas_raw.csv"
+
+  elec_silver_output_path: "data/silver/elec (silver).csv"
+  water_silver_output_path: "data/silver/water (silver).csv"
+  gas_silver_output_path: "data/silver/gas (silver).csv"
+
+  utiltities_gold_output_path: "data/gold/utilities (gold).csv"
+
+
+gmail_queries:
+  elec: "from:your-electricity-provider@example.com subject:electricity has:attachment"
+  water: "from:your-water-provider@example.com subject:water has:attachment"
+  gas: "from:your-gas-provider@example.com subject:gas has:attachment"
+
+seasons:
+  summer:
+    start_month: 11  # November
+    end_month: 4     # End of April
+  winter:
+    start_month: 5   # Start of May
+    end_month: 10    # End of October
+
+column_dtypes:
+  invoice_number: string
+  utility_type: string
+  invoice_date: datetime
+  invoice_total: float
+  invoice_start: datetime
+  invoice_end: datetime
+  step_number: int
+  step_start: datetime
+  step_end: datetime
+  season: string
+  usage_amount: float
+  usage_rate: float
+  usage_charge: float
+  service_days: int
+  service_rate: float
+  service_charge: float
+
+columns:
+  final_labels:
+    - invoice_number
+    - utility_type
+    - invoice_date
+    - invoice_total
+    - invoice_start
+    - invoice_end
+    - step_number
+    - step_start
+    - step_end
+    - season
+    - usage_amount
+    - usage_rate
+    - usage_charge
+    - service_days
+    - service_rate
+    - service_charge
+
+  elec_rename:
+    - invoice_number
+    - utility_type
+    - invoice_date
+    - invoice_total
+    - invoice_start
+    - invoice_end
+    - usage_amount
+    - usage_rate
+    - usage_charge
+    - service_days
+    - service_rate
+    - service_charge
+
+  gas_rename:
+    - invoice_number
+    - utility_type
+    - invoice_date
+    - invoice_total
+    - step_start
+    - step_end
+    - season
+    - step_number
+    - usage_amount
+    - usage_rate
+    - usage_charge
+    - service_days
+    - service_rate
+    - service_charge
+
+  water_rename:
+    - invoice_number
+    - utility_type
+    - invoice_date
+    - invoice_total
+    - invoice_start
+    - invoice_end
+    - step_start
+    - step_end
+    - step_number
+    - usage_amount
+    - usage_rate
+    - usage_charge

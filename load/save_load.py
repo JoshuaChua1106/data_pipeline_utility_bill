@@ -22,4 +22,3 @@ def save_dataframe_to_csv(df: pd.DataFrame, output_path: str, index: bool = Fals
 
     # Save the CSV
     df.to_csv(output_path, index=index, sep=sep)
-    print(f"DataFrame saved to {output_path}")
