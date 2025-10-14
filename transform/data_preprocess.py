@@ -1,4 +1,8 @@
 import pandas as pd
+import yaml
+from pathlib import Path
+import pandas as pd
+
 
 def fill_gas_invoice_start_end(df: pd.DataFrame) -> pd.DataFrame:
     """
@@ -77,8 +81,16 @@ def classify_season(date: pd.Timestamp) -> str:
     - Season 1 (Summer): 1 Oct – 31 May
     - Season 2 (Winter): 1 Jun – 30 Sep
     """
+
+    # Load config
+    BASE_DIR = Path(__file__).resolve().parent.parent
+    with open(BASE_DIR / "config/config.yaml") as f:
+        config = yaml.safe_load(f)
+
+    summer_months = config["gas_seasons"]["summer"]
+
     month = date.month
-    if 6 <= month <= 9:
-        return "Winter"
-    else:
+    if month >= summer_months["start_month"] or month <= summer_months["end_month"]:
         return "Summer"
+    else:
+        return "Winter"
