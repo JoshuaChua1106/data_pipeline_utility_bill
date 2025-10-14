@@ -109,7 +109,6 @@ gas_df_silver = standardize_column_names(gas_df_silver, final_labels)
 
     # Step 5.3: Pre-process missing values from df (incl. invoice_date/step_date/step_number)
 elec_df_silver = fill_electricity_step_fields(elec_df_silver)
-water_df_silver = fill_water_step_dates(water_df_silver)
 water_df_silver = fill_missing_service_columns_for_water(water_df_silver)
 gas_df_silver = fill_gas_invoice_start_end(gas_df_silver)
 gas_df_silver = clean_gas_season(gas_df_silver)
@@ -133,8 +132,10 @@ water_df_silver["season"] = water_df_silver["invoice_start"].apply(
     lambda x: classify_season(x, summer_months)
 )
 
+    # Step 5.6 Add in missing step dates for water
+water_df_silver = fill_water_step_dates(water_df_silver)
 
-    # Step 5.6: Output as silver dataframe
+    # Step 5.7: Output as silver dataframe
 elec_silver_output_path = BASE_DIR / config["paths"]["elec_silver_output_path"]
 water_silver_output_path = BASE_DIR / config["paths"]["water_silver_output_path"]
 gas_silver_output_path = BASE_DIR / config["paths"]["gas_silver_output_path"]
@@ -143,4 +144,11 @@ gas_silver_output_path = BASE_DIR / config["paths"]["gas_silver_output_path"]
 elec_df_silver.to_csv(elec_silver_output_path, index=False)
 water_df_silver.to_csv(water_silver_output_path, index=False)
 gas_df_silver.to_csv(gas_silver_output_path, index=False)
+
+# Step 6.0 Combine dataframe into one
+utilities_gold_df = pd.concat([elec_df_silver, water_df_silver, gas_df_silver], ignore_index=True)
+
+    # Step 6.1 Save as csv
+utilities_gold_output_path = BASE_DIR / config["paths"]["utiltities_gold_output_path"]
+utilities_gold_df.to_csv(utilities_gold_output_path, index=False)
 

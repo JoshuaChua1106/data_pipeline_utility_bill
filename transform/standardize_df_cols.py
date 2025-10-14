@@ -47,7 +47,6 @@ def standardize_column_datatypes(df: pd.DataFrame, column_dtypes: dict, utility_
 
     for col, dtype in column_dtypes.items():
         if col in df.columns:
-            print(f"Standardizing column: {col} → {dtype}")
 
             if dtype == "datetime":
                 if utility_type.lower() == "water" and col in ["invoice_date", "invoice_start", "invoice_end", "step_start", "step_end"]:
