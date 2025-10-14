@@ -11,6 +11,8 @@ from extract.pdf_downloader import download_pdf_attachments
 
 from parse.pdf_parser_base import parse_all_pdfs
 from transform.standardize_df_cols import standardize_columns
+from transform.data_preprocess import fill_gas_invoice_start_end,fill_electricity_step_fields, clean_gas_season
+
 
 # Configuration
 load_dotenv()
@@ -101,7 +103,13 @@ elec_df_silver = standardize_columns(elec_df_silver, final_labels)
 water_df_silver = standardize_columns(water_df_silver, final_labels)
 gas_df_silver = standardize_columns(gas_df_silver, final_labels)
 
-    # Step 5.3: Output as silver dataframe
+    # Step 5.3: Pre-process missing values from df
+elec_df_silver = fill_electricity_step_fields(elec_df_silver)
+gas_df_silver = fill_gas_invoice_start_end(gas_df_silver)
+gas_df_silver = clean_gas_season(gas_df_silver)
+
+
+    # Step 5.4: Output as silver dataframe
 elec_silver_output_path = BASE_DIR / config["paths"]["elec_silver_output_path"]
 water_silver_output_path = BASE_DIR / config["paths"]["water_silver_output_path"]
 gas_silver_output_path = BASE_DIR / config["paths"]["gas_silver_output_path"]

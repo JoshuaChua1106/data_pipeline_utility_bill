@@ -3,10 +3,6 @@ data/*
 !data/.gitignore
 data/raw/*
 !data/raw/.gitignore
-data/silver/*
-!data/silver/.gitignore
-data/processed/*
-!data/processed/.gitignore
 
 # Ignore everything in the config folder
 config/**
@@ -15,7 +11,6 @@ config/**
 
 # Environment variables
 .env
-
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
