@@ -14,6 +14,8 @@ from parse.pdf_parser_base import parse_all_pdfs
 from transform.standardize_df_cols import standardize_column_names, standardize_column_datatypes
 from transform.data_preprocess import fill_gas_invoice_start_end,fill_electricity_step_fields, clean_gas_season, classify_season, fill_missing_service_columns_for_water, fill_water_step_dates
 
+from load.save_load import save_dataframe_to_csv
+
 # Configuration
 load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent
@@ -73,13 +75,13 @@ water_df = parse_all_pdfs(water_pdf_filepath, "water")
 gas_df = parse_all_pdfs(gas_pdf_filepath, "gas")
 
     # Step 4.1: Save as dataframe
-elec_raw_dataframe = BASE_DIR / config["paths"]["elec_df_raw"]
-water_raw_dataframe = BASE_DIR / config["paths"]["water_df_raw"]
-gas_raw_dataframe = BASE_DIR / config["paths"]["gas_df_raw"]
+elec_raw_df_output_path = BASE_DIR / config["paths"]["elec_df_raw"]
+water_raw_df_output_path = BASE_DIR / config["paths"]["water_df_raw"]
+gas_raw_df_output_path = BASE_DIR / config["paths"]["gas_df_raw"]
 
-elec_df.to_csv(elec_raw_dataframe, index=False)
-water_df.to_csv(water_raw_dataframe, index=False)
-gas_df.to_csv(gas_raw_dataframe, index=False)
+save_dataframe_to_csv(elec_df, elec_raw_df_output_path)
+save_dataframe_to_csv(water_df, water_raw_df_output_path)
+save_dataframe_to_csv(gas_df, gas_raw_df_output_path)
 
 
 # Step 5: Preprocess (Align columns)
@@ -140,15 +142,15 @@ elec_silver_output_path = BASE_DIR / config["paths"]["elec_silver_output_path"]
 water_silver_output_path = BASE_DIR / config["paths"]["water_silver_output_path"]
 gas_silver_output_path = BASE_DIR / config["paths"]["gas_silver_output_path"]
 
+save_dataframe_to_csv(elec_df_silver, elec_silver_output_path)
+save_dataframe_to_csv(water_df_silver, water_silver_output_path)
+save_dataframe_to_csv(gas_df_silver, gas_silver_output_path)
 
-elec_df_silver.to_csv(elec_silver_output_path, index=False)
-water_df_silver.to_csv(water_silver_output_path, index=False)
-gas_df_silver.to_csv(gas_silver_output_path, index=False)
 
 # Step 6.0 Combine dataframe into one
 utilities_gold_df = pd.concat([elec_df_silver, water_df_silver, gas_df_silver], ignore_index=True)
 
     # Step 6.1 Save as csv
 utilities_gold_output_path = BASE_DIR / config["paths"]["utiltities_gold_output_path"]
-utilities_gold_df.to_csv(utilities_gold_output_path, index=False)
+save_dataframe_to_csv(utilities_gold_df, utilities_gold_output_path)
 
