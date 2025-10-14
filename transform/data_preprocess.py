@@ -70,3 +70,15 @@ def fill_electricity_step_fields(df: pd.DataFrame) -> pd.DataFrame:
     df['step_end'] = df['invoice_end']
 
     return df
+
+def classify_season(date: pd.Timestamp) -> str:
+    """
+    Classify a date into Lumo Energy's gas billing seasons.
+    - Season 1 (Summer): 1 Oct – 31 May
+    - Season 2 (Winter): 1 Jun – 30 Sep
+    """
+    month = date.month
+    if 6 <= month <= 9:
+        return "Winter"
+    else:
+        return "Summer"

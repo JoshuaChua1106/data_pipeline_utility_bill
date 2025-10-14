@@ -1,5 +1,6 @@
 import os
 import yaml
+import pandas as pd
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -11,7 +12,7 @@ from extract.pdf_downloader import download_pdf_attachments
 
 from parse.pdf_parser_base import parse_all_pdfs
 from transform.standardize_df_cols import standardize_columns
-from transform.data_preprocess import fill_gas_invoice_start_end,fill_electricity_step_fields, clean_gas_season
+from transform.data_preprocess import fill_gas_invoice_start_end,fill_electricity_step_fields, clean_gas_season, classify_season
 
 
 # Configuration
@@ -103,10 +104,15 @@ elec_df_silver = standardize_columns(elec_df_silver, final_labels)
 water_df_silver = standardize_columns(water_df_silver, final_labels)
 gas_df_silver = standardize_columns(gas_df_silver, final_labels)
 
-    # Step 5.3: Pre-process missing values from df
+    # Step 5.3: Pre-process missing values from df (incl. invoice_date/step_date/step_number)
 elec_df_silver = fill_electricity_step_fields(elec_df_silver)
 gas_df_silver = fill_gas_invoice_start_end(gas_df_silver)
 gas_df_silver = clean_gas_season(gas_df_silver)
+
+    # Step 5.4 Add in season to elec, water
+elec_df_silver["season"] = pd.to_datetime(elec_df_silver["invoice_start"]).apply(classify_season)
+water_df_silver["season"] = pd.to_datetime(water_df_silver["invoice_start"]).apply(classify_season)
+
 
 
     # Step 5.4: Output as silver dataframe
