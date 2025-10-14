@@ -12,7 +12,7 @@ from extract.pdf_downloader import download_pdf_attachments
 
 from parse.pdf_parser_base import parse_all_pdfs
 from transform.standardize_df_cols import standardize_columns
-from transform.data_preprocess import fill_gas_invoice_start_end,fill_electricity_step_fields, clean_gas_season, classify_season
+from transform.data_preprocess import fill_gas_invoice_start_end,fill_electricity_step_fields, clean_gas_season, classify_season, fill_missing_service_columns_for_water
 
 
 # Configuration
@@ -113,7 +113,8 @@ gas_df_silver = clean_gas_season(gas_df_silver)
 elec_df_silver["season"] = pd.to_datetime(elec_df_silver["invoice_start"]).apply(classify_season)
 water_df_silver["season"] = pd.to_datetime(water_df_silver["invoice_start"]).apply(classify_season)
 
-
+    # Step 5.5 Add in missing data for service to water
+water_df_silver = fill_missing_service_columns_for_water(water_df_silver)
 
     # Step 5.4: Output as silver dataframe
 elec_silver_output_path = BASE_DIR / config["paths"]["elec_silver_output_path"]

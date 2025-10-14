@@ -94,3 +94,25 @@ def classify_season(date: pd.Timestamp) -> str:
         return "Summer"
     else:
         return "Winter"
+    
+def fill_missing_service_columns_for_water(df: pd.DataFrame) -> pd.DataFrame:
+    """
+    Ensure 'service_days', 'service_rate', 'service_charge' columns exist,
+    and fill them with 0 if missing or NaN.
+    
+    Parameters:
+        df (pd.DataFrame)
+    
+    Returns:
+        pd.DataFrame with the columns filled
+    """
+    df = df.copy()
+    service_cols = ["service_days", "service_rate", "service_charge"]
+    
+    for col in service_cols:
+        if col not in df.columns:
+            df[col] = 0
+        else:
+            df[col] = df[col].fillna(0)
+    
+    return df
