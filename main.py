@@ -17,14 +17,6 @@ from transform.data_preprocess import fill_gas_invoice_start_end,fill_electricit
 
 from load.save_load import save_dataframe_to_csv
 
-# Configuration
-load_dotenv()
-BASE_DIR = Path(__file__).resolve().parent
-config_path = BASE_DIR / "config/config.yaml"
-
-with open(config_path) as f:
-    config = yaml.safe_load(f)
-
 
 def run_extract_stage():
     """Stage 1: Connect to Gmail and download PDFs"""
@@ -39,6 +31,8 @@ def run_extract_stage():
     
     service = connect_gmail(credentials_file=credentials_path, token_file=token_path)
     
+    
+
     # Verify connection
     try:
         profile = service.users().getProfile(userId='me').execute()
@@ -225,6 +219,15 @@ def run_full_pipeline():
 
 
 if __name__ == "__main__":
+
+    # Configuration
+    load_dotenv()
+    BASE_DIR = Path(__file__).resolve().parent
+    config_path = BASE_DIR / "config/config.yaml"
+
+    with open(config_path) as f:
+        config = yaml.safe_load(f)
+
     parser = argparse.ArgumentParser(description="Utility Bill Data Pipeline")
     parser.add_argument(
         "--stage", 
