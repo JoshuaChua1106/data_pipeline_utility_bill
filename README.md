@@ -17,6 +17,8 @@ This pipeline automates the process of:
 - 🏗️ **Data lake architecture** - Bronze/Silver/Gold data layers
 - 🔄 **Automated data processing** - Handles missing values, date parsing, seasonal classification
 - 📊 **Standardized output** - Consistent column names and data types across utilities
+- ⚙️ **Modular pipeline** - Run individual stages or full pipeline with CLI commands
+- 🛠️ **Error handling** - Graceful failure handling with clear error messages
 
 ## Quick Start
 
@@ -56,7 +58,14 @@ This pipeline automates the process of:
 
 5. **Run the pipeline**
    ```bash
+   # Run full pipeline
    python main.py
+   
+   # Or run specific stages
+   python main.py --stage extract     # Download PDFs only
+   python main.py --stage parse       # Parse PDFs to CSV  
+   python main.py --stage transform   # Process to silver layer
+   python main.py --stage load        # Combine to gold layer
    ```
 
 ## Project Structure
@@ -100,6 +109,27 @@ The pipeline uses a medallion architecture:
 - **Bronze (Raw)**: Direct PDF extractions with minimal processing
 - **Silver (Processed)**: Standardized column names, data types, missing value handling
 - **Gold (Curated)**: Combined dataset ready for analysis
+
+## Modular Usage
+
+The pipeline is designed with modular stages that can be run independently:
+
+```bash
+# Full pipeline (all stages)
+python main.py --stage all
+
+# Individual stages
+python main.py --stage extract     # Gmail connection + PDF download
+python main.py --stage parse       # PDF parsing to CSV (Bronze layer)
+python main.py --stage transform   # Data standardization (Silver layer)  
+python main.py --stage load        # Data combination (Gold layer)
+```
+
+**Benefits of modular approach:**
+- **Debug easily** - Isolate issues to specific stages
+- **Reprocess data** - Re-run transform/load without re-downloading
+- **Development** - Test individual components
+- **Flexibility** - Skip stages based on data availability
 
 ### Seasonal Classification
 
