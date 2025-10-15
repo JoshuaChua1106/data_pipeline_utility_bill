@@ -85,11 +85,13 @@ save_dataframe_to_csv(gas_df, gas_raw_df_output_path)
 
 
 # Step 5: Preprocess (Align columns)
-    # Step 5.1: Rename existing columns to match
-elec_df_silver = elec_df.copy()
-water_df_silver = water_df.copy()
-gas_df_silver = gas_df.copy()
 
+    # Load data
+elec_df_silver = pd.read_csv(elec_raw_df_output_path)
+water_df_silver = pd.read_csv(water_raw_df_output_path)
+gas_df_silver = pd.read_csv(gas_raw_df_output_path)
+
+    # Step 5.1: Rename existing columns to match
 final_labels = config["columns"]["final_labels"]
 
 elec_rename = config["columns"]["elec_rename"]
@@ -149,7 +151,13 @@ save_dataframe_to_csv(gas_df_silver, gas_silver_output_path)
 
 
 # Step 6.0 Combine dataframe into one
-utilities_gold_df = pd.concat([elec_df_silver, water_df_silver, gas_df_silver], ignore_index=True)
+
+    # Load data
+elec_df_combine = pd.read_csv(elec_silver_output_path)
+water_df_combine = pd.read_csv(water_silver_output_path)
+gas_df_combine = pd.read_csv(gas_silver_output_path)
+
+utilities_gold_df = pd.concat([elec_df_combine, water_df_combine, gas_df_combine], ignore_index=True)
 
 
     # Step 6.1 Save as csv
