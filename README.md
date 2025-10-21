@@ -2,6 +2,9 @@
 
 An automated ETL pipeline that extracts utility bill data from Gmail attachments, parses PDF invoices, and transforms the data into a structured format for analysis.
 
+Documentation can be found here:
+https://www.notion.so/Utilities-Dashboard-27fc4f413fc4803e9071d2c01196a14b?source=copy_link
+
 ## Overview
 
 This pipeline automates the process of:
@@ -212,10 +215,6 @@ def custom_transformation(df):
 3. Make your changes
 4. Add tests if applicable
 5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 
