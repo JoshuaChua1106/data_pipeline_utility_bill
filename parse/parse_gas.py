@@ -10,7 +10,7 @@ def parse_gas_pdf(full_text, file_path):
     """
     # --- Define regex patterns ---
     Invoice_Date_re = r"IssueDate\s*(\d{1,2}[A-Za-z]{3}\d{2,4})"
-    Invoice_Total_re = r"TotalGSTforCharges \$([\d.]+)"
+    Invoice_Total_re = r"GasCharges \$([\d.]+)"
     Period_start_end_re = r"From(\d{1,2}[A-Za-z]+?\d{4})to(\d{1,2}[A-Za-z]+?\d{4})"
     Season_re = r"(TotalWinter|TotalSummer|TotalSpring|TotalAutumn|TotalFall)"
     step_re = r"Step(\d+)\s+([\d.]+)\s+\$([\d.]+)\s+\$([\d.]+)"  # Step number, usage_MJ, rate per MJ, usage_cost
