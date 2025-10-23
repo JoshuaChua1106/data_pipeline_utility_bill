@@ -18,16 +18,6 @@ This pipeline automates the process of:
 3. **Transforming** data into standardized formats with proper data types
 4. **Loading** the final dataset into CSV files for analysis
 
-## Features
-
-- 🔐 **Secure Gmail OAuth integration** - No passwords stored
-- 📄 **Multi-utility support** - Handles electricity, gas, and water bills
-- 🏗️ **Data lake architecture** - Bronze/Silver/Gold data layers
-- 🔄 **Automated data processing** - Handles missing values, date parsing, seasonal classification
-- 📊 **Standardized output** - Consistent column names and data types across utilities
-- ⚙️ **Modular pipeline** - Run individual stages or full pipeline with CLI commands
-- 🛠️ **Error handling** - Graceful failure handling with clear error messages
-
 ## Quick Start
 
 ### Prerequisites
