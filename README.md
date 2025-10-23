@@ -5,6 +5,11 @@ An automated ETL pipeline that extracts utility bill data from Gmail attachments
 Documentation can be found here:
 https://www.notion.so/Utilities-Dashboard-27fc4f413fc4803e9071d2c01196a14b?source=copy_link
 
+## Changelog
+[v1.0] - 2025-10-23
+Complete ETL Pipeline completed and released
+Documentation completed
+
 ## Overview
 
 This pipeline automates the process of:
