@@ -203,14 +203,10 @@ def custom_transformation(df):
    - Verify OAuth credentials are valid
    - Check environment variables are set correctly
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
+## Future enhancements
+1. Make the pipeline automatically source PDFs from GmailAPI. Whether that's based on a timed approach or elsewise
+2. Track the invoices already uploaded to the database, only uploading new invoices or altering current invoices. (The pipeline should check for what has already been uploaded and parsed each step with each of its intermediates)
+   
 ## Acknowledgments
 
 - Built with Python and pandas for data processing
