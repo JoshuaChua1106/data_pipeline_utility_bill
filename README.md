@@ -5,6 +5,11 @@ An automated ETL pipeline that extracts utility bill data from Gmail attachments
 Documentation can be found here:
 https://www.notion.so/Utilities-Dashboard-27fc4f413fc4803e9071d2c01196a14b?source=copy_link
 
+## Changelog
+[v1.0] - 2025-10-23
+Complete ETL Pipeline completed and released
+Documentation completed
+
 ## Overview
 
 This pipeline automates the process of:
@@ -12,16 +17,6 @@ This pipeline automates the process of:
 2. **Parsing** PDF invoices using regex patterns 
 3. **Transforming** data into standardized formats with proper data types
 4. **Loading** the final dataset into CSV files for analysis
-
-## Features
-
-- 🔐 **Secure Gmail OAuth integration** - No passwords stored
-- 📄 **Multi-utility support** - Handles electricity, gas, and water bills
-- 🏗️ **Data lake architecture** - Bronze/Silver/Gold data layers
-- 🔄 **Automated data processing** - Handles missing values, date parsing, seasonal classification
-- 📊 **Standardized output** - Consistent column names and data types across utilities
-- ⚙️ **Modular pipeline** - Run individual stages or full pipeline with CLI commands
-- 🛠️ **Error handling** - Graceful failure handling with clear error messages
 
 ## Quick Start
 
@@ -208,14 +203,10 @@ def custom_transformation(df):
    - Verify OAuth credentials are valid
    - Check environment variables are set correctly
 
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests if applicable
-5. Submit a pull request
-
+## Future enhancements
+1. Make the pipeline automatically source PDFs from GmailAPI. Whether that's based on a timed approach or elsewise
+2. Track the invoices already uploaded to the database, only uploading new invoices or altering current invoices. (The pipeline should check for what has already been uploaded and parsed each step with each of its intermediates)
+   
 ## Acknowledgments
 
 - Built with Python and pandas for data processing
