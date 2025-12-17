@@ -6,6 +6,13 @@ PowerBI Dashboards also included.
 Documentation can be found here:
 https://www.notion.so/Utilities-Dashboard-27fc4f413fc4803e9071d2c01196a14b?source=copy_link
 
+### Dashboard View
+<img width="1283" height="714" alt="image" src="https://github.com/user-attachments/assets/b102419e-5c8c-43ac-945e-a0becae1ef01" />
+
+### Deep-dive View
+<img width="1283" height="711" alt="image" src="https://github.com/user-attachments/assets/70ae615c-d7a1-46c3-bf1f-a60cb636c011" />
+
+
 ## Changelog
 [v1.0] - 2025-10-23
 Complete ETL Pipeline completed and released
