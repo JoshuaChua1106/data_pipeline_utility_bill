@@ -25,6 +25,36 @@ This pipeline automates the process of:
 2. **Parsing** PDF invoices using regex patterns 
 3. **Transforming** data into standardized formats with proper data types
 4. **Loading** the final dataset into CSV files for analysis
+5. **Analysing** the final data in PowerBI with a dimensional model
+
+## Data Model
+
+### Star Schema Design
+
+**Fact Table: `fact_step`**
+Stores granular utility billing data at the pricing tier step level, enabling analysis of tiered pricing structures.
+
+Key measures:
+- `usage_amount` - Consumption quantity
+- `usage_charge` - Cost for usage
+- `service_charge` - Fixed service fees
+- `usage_rate` - Rate per unit
+- `step_number` - Pricing tier level (for tiered rates)
+
+**Dimension Tables:**
+
+`dim_date` - Date dimension with time intelligence
+- Full date hierarchy (year, quarter, month, day)
+- Pre-calculated fields (month_year_sorted for proper sorting)
+
+`dim_utility_type` - Utility service types (electricity, gas, water)
+
+`dim_season` - Seasonal classification for weather impact analysis
+
+`dim_invoice` - Invoice metadata and billing periods
+
+### Schema Diagram
+<img width="661" height="774" alt="image" src="https://github.com/user-attachments/assets/7a91cde1-f634-45a5-aa93-a35b2be6ecd8" />
 
 ## Quick Start
 
